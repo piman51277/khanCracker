@@ -117,7 +117,14 @@
 
 			ctx.fillStyle = "black";
 			for (const label of labels.labels) {
-				const { content, alignment, coordinates, style } = label;
+				const { content, alignment, coordinates, style, typesetAsMath } = label;
+
+				if (typesetAsMath) {
+					ctx.font = "400 16.94px Times New Roman, serif"
+				}else{
+					ctx.font = "bold 700 14px Lato, sans-serif"
+				}
+
 				const { transform } = style;
 				const [x, y] = coordinates;
 				let realX = (x - minX) * scaleX
@@ -134,7 +141,8 @@
 						ctx.textAlign = "center";
 						break;
 					case "below":
-						realY += 15;
+						ctx.textAlign = "center";
+						realY += 20;
 						break;
 				}
 
