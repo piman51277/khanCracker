@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         KhanCrack
-// @version      1.0.0
+// @version      1.1.0
 // @description  Parses requests for answer to questions
 // @author       piman51277
 // @match        https://www.khanacademy.org/*
@@ -246,7 +246,7 @@
 			if (!window.loaded) {
 				console.clear();
 				console.log("%c KhanCrack", "color: LawnGreen; font-size:35px;font-family:monospace;");
-				console.log("%c v1.0.0", "color: white; -webkit-text-stroke: .5px black; font-size:15px; font-weight:bold;");
+				console.log("%c v1.1.0", "color: white; -webkit-text-stroke: .5px black; font-size:15px; font-weight:bold;");
 				window.loaded = true;
 			}
 
