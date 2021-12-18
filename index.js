@@ -48,26 +48,30 @@
 						this.printPNGImage(ans);
 					}
 					else {
-						answer[answer.indexOf(ans)] = ans.replaceAll("$", "");
-						const svgElement = MathJax.tex2svg(ans).childNodes[0];
-						var svgURL = new XMLSerializer().serializeToString(svgElement);
-						var img = new Image();
-						img.src = 'data:image/svg+xml; charset=utf8, ' + encodeURIComponent(svgURL);
-						const canvas = document.createElement("canvas");
-						const ctx = canvas.getContext("2d");
-						img.onload = function () {
-							canvas.width = this.width + 10;
-							canvas.height = this.height + 10;
-							ctx.fillStyle = "white";
-							ctx.fillRect(0, 0, canvas.width, canvas.height);
-							ctx.drawImage(this, 5, 5);
-							const dataURL = canvas.toDataURL("image/png");
-							const imageStyle = [
-								`font-size: 0px;`,
-								`padding: ${canvas.height * .5}px ${canvas.width * .5}px;`,
-								'background:url("', dataURL, '")'
-							].join(' ');
-							console.log('%c ', imageStyle);
+						if (/^\$.+\$$/.test(ans)) {
+							const svgElement = MathJax.tex2svg(ans.replaceAll("$", "")).childNodes[0];
+							var svgURL = new XMLSerializer().serializeToString(svgElement);
+							var img = new Image();
+							img.src = 'data:image/svg+xml; charset=utf8, ' + encodeURIComponent(svgURL);
+							const canvas = document.createElement("canvas");
+							const ctx = canvas.getContext("2d");
+							img.onload = function () {
+								canvas.width = this.width + 10;
+								canvas.height = this.height + 10;
+								ctx.fillStyle = "white";
+								ctx.fillRect(0, 0, canvas.width, canvas.height);
+								ctx.drawImage(this, 5, 5);
+								const dataURL = canvas.toDataURL("image/png");
+								const imageStyle = [
+									`font-size: 0px;`,
+									`padding: ${canvas.height * .5}px ${canvas.width * .5}px;`,
+									'background:url("', dataURL, '")'
+								].join(' ');
+								console.log('%c ', imageStyle);
+							}
+							answer[answer.indexOf(ans)] = "";
+						} else {
+							answer[answer.indexOf(ans)] = ans.replaceAll("$", "");
 						}
 					}
 				}
@@ -241,7 +245,7 @@
 
 			if (!window.loaded) {
 				console.clear();
-				console.log("%c KhanCrack", "color: green; font-size:35px;");
+				console.log("%c KhanCrack", "color: LawnGreen; font-size:35px;font-family:monospace;");
 				console.log("%c v1.0.0", "color: white; -webkit-text-stroke: .5px black; font-size:15px; font-weight:bold;");
 				window.loaded = true;
 			}
