@@ -69,7 +69,6 @@
 								].join(' ');
 								console.log('%c ', imageStyle);
 							}
-							answer[answer.indexOf(ans)] = "";
 						} else {
 							answer[answer.indexOf(ans)] = ans.replaceAll("$", "");
 						}
