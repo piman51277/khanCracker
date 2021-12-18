@@ -211,7 +211,7 @@
 					if (!question) return;
 
 					console.log("Question:\n", question.content);
-
+					console.log("Answer(s):")
 					Object.keys(question.widgets).map(widgetName => {
 						if (question.content.includes(widgetName)) {
 							switch (widgetName.split(" ")[0]) {
