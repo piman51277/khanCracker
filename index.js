@@ -36,6 +36,7 @@
 
 		log() {
 			const answer = this.body;
+			console.log("Answer: ");
 
 			answer.map(ans => {
 				if (typeof ans == "string") {
@@ -69,9 +70,9 @@
 								].join(' ');
 								console.log('%c ', imageStyle);
 							}
-						} else {
-							answer[answer.indexOf(ans)] = ans.replaceAll("$", "");
 						}
+						answer[answer.indexOf(ans)] = ans.replaceAll("$", "");
+
 					}
 				}
 			});
