@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         KhanCrack
-// @version      1.1.0
+	// @version      1.1.0
 // @description  Parses requests for answer to questions
 // @author       piman51277
 // @match        https://www.khanacademy.org/*
@@ -234,7 +234,8 @@
 									return expressionAnswerFrom(question).log();
 								case "dropdown":
 									return dropdownAnswerFrom(question).log();
-
+								case "explanation":
+									return;
 								default:
 									return console.log("%c Unable to find answer!", "color:red;");
 							}
