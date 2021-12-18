@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         KhanCrack
-	// @version      1.1.0
+// @version      1.1.1
 // @description  Parses requests for answer to questions
 // @author       piman51277
 // @match        https://www.khanacademy.org/*
@@ -14,8 +14,8 @@
 
 	class Answer {
 		constructor(answer, type) {
-			this.body = answer;
-			this.type = type;
+			this.body = answer || ["none"];
+			this.type = type || "error";
 		}
 
 		get isMultiChoice() {
@@ -34,9 +34,12 @@
 			return this.type == "dropdown";
 		}
 
+		get isError() {
+			return this.type == "error";
+		}
+
 		log() {
 			const answer = this.body;
-			console.log("Answer: ");
 
 			answer.map(ans => {
 				if (typeof ans == "string") {
@@ -54,22 +57,7 @@
 							var svgURL = new XMLSerializer().serializeToString(svgElement);
 							var img = new Image();
 							img.src = 'data:image/svg+xml; charset=utf8, ' + encodeURIComponent(svgURL);
-							const canvas = document.createElement("canvas");
-							const ctx = canvas.getContext("2d");
-							img.onload = function () {
-								canvas.width = this.width + 10;
-								canvas.height = this.height + 10;
-								ctx.fillStyle = "white";
-								ctx.fillRect(0, 0, canvas.width, canvas.height);
-								ctx.drawImage(this, 5, 5);
-								const dataURL = canvas.toDataURL("image/png");
-								const imageStyle = [
-									`font-size: 0px;`,
-									`padding: ${canvas.height * .5}px ${canvas.width * .5}px;`,
-									'background:url("', dataURL, '")'
-								].join(' ');
-								console.log('%c ', imageStyle);
-							}
+							renderImage(img.src);
 						}
 						answer[answer.indexOf(ans)] = ans.replaceAll("$", "");
 
@@ -78,8 +66,11 @@
 			});
 
 			const text = answer.join("\n");
-			if (text) {
+			if (!this.isError && text) {
 				console.log(`%c${text.trim()} `, 'color:LawnGreen;');
+			}
+			else if (this.isError) {
+				console.log(`%c Unable to find answer!`, 'color:Red;');
 			}
 		}
 
@@ -177,18 +168,18 @@
 		image.onload = function () {
 
 			const canvas = document.createElement("canvas");
-			canvas.width = this.width;
-			canvas.height = this.height;
+			canvas.width = this.width + 10;
+			canvas.height = this.height + 10;
 
 			const ctx = canvas.getContext("2d");
 			ctx.fillStyle = "white";
-			ctx.fillRect(0, 0, this.width, this.height);
-			ctx.drawImage(this, 0, 0);
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
+			ctx.drawImage(this, 5, 5);
 
 			const dataURL = canvas.toDataURL("image/png");
 			const imageStyle = [
 				`font-size: 0px;`,
-				`padding: ${this.height * .5}px ${this.width * .5}px;`,
+				`padding: ${canvas.height * .5}px ${canvas.width * .5}px;`,
 				'background:url("', dataURL, '")'
 			].join(' ');
 			console.log('%c ', imageStyle);
@@ -225,15 +216,15 @@
 						if (question.content.includes(widgetName)) {
 							switch (widgetName.split(" ")[0]) {
 								case "input-number":
-									return numericAnswerFrom(question).log();
+									return numericAnswerFrom(question, widgetName).log();
 								case "numeric-input":
-									return freeResponseAnswerFrom(question).log();
+									return freeResponseAnswerFrom(question, widgetName).log();
 								case "radio":
-									return multipleChoiceAnswerFrom(question).log();
+									return multipleChoiceAnswerFrom(question, widgetName).log();
 								case "expression":
-									return expressionAnswerFrom(question).log();
+									return expressionAnswerFrom(question, widgetName).log();
 								case "dropdown":
-									return dropdownAnswerFrom(question).log();
+									return dropdownAnswerFrom(question, widgetName).log();
 								case "explanation":
 									return;
 								default:
@@ -247,7 +238,7 @@
 			if (!window.loaded) {
 				console.clear();
 				console.log("%c KhanCrack", "color: LawnGreen; font-size:35px;font-family:monospace;");
-				console.log("%c v1.1.0", "color: white; -webkit-text-stroke: .5px black; font-size:15px; font-weight:bold;");
+				console.log("%c v1.1.1", "color: white; -webkit-text-stroke: .5px black; font-size:15px; font-weight:bold;");
 				window.loaded = true;
 			}
 
@@ -255,69 +246,59 @@
 		})
 	}
 
-	function numericAnswerFrom(question) {
-		const answer = Object.values(question.widgets).map((widget) => {
-			if (widget.options?.value) {
-				return widget.options?.value
-			}
-		}).flat().filter((val) => { return val !== undefined; });
-
-		return new Answer(answer, "free_response");
+	function numericAnswerFrom(question, widgetName) {
+		const widget = question.widgets[widgetName];
+		if (widget.options?.value !== undefined) {
+			return new Answer([widget.options.value], "free_response");
+		}
+		return new Answer();
 	}
 
-	function freeResponseAnswerFrom(question) {
-		const answer = Object.values(question.widgets).map((widget) => {
-			if (widget.options?.answers) {
-				return widget.options.answers.map(answer => {
-					if (answer.status == "correct") {
-						return answer.value;
-					}
-				});
-			}
-		}).flat().filter((val) => { return val !== undefined; });
-
-		return new Answer(answer, "free_response");
+	function freeResponseAnswerFrom(question, widgetName) {
+		const widget = question.widgets[widgetName];
+		if (widget.options?.answers !== undefined) {
+			return new Answer(widget.options.answers.map(answer => {
+				if (answer.status == "correct") {
+					return answer.value
+				}
+			}).filter((val) => { return val !== undefined; }), "free_response");
+		}
+		return new Answer();
 	}
 
-	function multipleChoiceAnswerFrom(question) {
-		const answer = Object.values(question.widgets).map((widget) => {
-			if (widget.options?.choices) {
-				return widget.options.choices.map((choice, index) => {
-					if (choice.correct) {
-						return choice.content;
-					}
-				});
-			}
-		}).flat().filter((val) => { return val !== undefined; });
-
-		return new Answer(answer, "multiple_choice");
+	function multipleChoiceAnswerFrom(question, widgetName) {
+		const widget = question.widgets[widgetName];
+		if (widget.options?.choices !== undefined) {
+			return new Answer(widget.options.choices.map((choice) => {
+				if (choice.correct) {
+					return choice.content
+				}
+			}).filter((val) => { return val !== undefined; }), "multiple_choice");
+		}
+		return new Answer();
 	}
 
-	function expressionAnswerFrom(question) {
-		const answer = Object.values(question.widgets).map((widget) => {
-			if (widget.options?.answerForms) {
-				return widget.options.answerForms.map(answer => {
-					if (Object.values(answer).includes("correct")) {
-						return answer.value;
-					}
-				});
-			}
-		}).flat();
-
-		return new Answer(answer, "expression");
+	function expressionAnswerFrom(question, widgetName) {
+		const widget = question.widgets[widgetName];
+		if (widget.options?.answerForms !== undefined) {
+			return new Answer(widget.options.answerForms.map(answer => {
+				if (Object.values(answer).includes("correct")) {
+					return answer.value
+				}
+			}).filter((val) => { return val !== undefined; }), "expression");
+		}
+		return new Answer();
 	}
 
-	function dropdownAnswerFrom(question) {
-		const answer = Object.values(question.widgets).map((widget) => {
-			if (widget.options?.choices) {
-				return widget.options.choices.map(choice => {
-					if (choice.correct) {
-						return choice.content;
-					}
-				});
-			}
-		}).flat();
-
-		return new Answer(answer, "dropdown");
+	function dropdownAnswerFrom(question, widgetName) {
+		const widget = question.widgets[widgetName];
+		if (widget.options?.choices !== undefined) {
+			return new Answer(widget.options.choices.map((choice) => {
+				if (choice.correct) {
+					return choice.content
+				}
+			}).filter((val) => { return val !== undefined; }), "dropdown");
+		}
+		return new Answer();
 	}
 })();

@@ -1,0 +1,101 @@
+{
+	"data": {
+		"assessmentItem": {
+			"item": {
+				"id": "xebe0b6d40cc28672",
+				"sha": "a0f90ba2aa4c595d01dca5eb02e352fafb096949",
+				"problemType": "3. Forming a slope field",
+				"itemData": {
+					"answerArea": {
+						"calculator": false,
+						"chi2Table": false,
+						"periodicTable": false,
+						"tTable": false,
+						"zTable": false
+					},
+					"hints": [
+						{
+							"content": "We calculate the requested slopes by substitution of the given $\\\\displaystyle~x$- and $\\\\displaystyle~y$-coordinates into $\\\\displaystyle~\\\\frac{dy}{dx}\\\\,$.",
+							"images": {},
+							"replace": false,
+							"widgets": {}
+						},
+						{
+							"content": "At $\\\\displaystyle~(-1,3)\\\\,$:\\n\\n$\\\\displaystyle\\\\qquad \\\\frac{dy}{dx}=-3-3+1=-5$\\n\\nAt $\\\\displaystyle~(1, 4)\\\\,$:\\n\\n$\\\\displaystyle\\\\qquad  \\\\frac{dy}{dx}=3 - 4+1 = 0$\\n\\n\\nAt $\\\\displaystyle~(2, 6)\\\\,$:\\n\\n$\\\\displaystyle\\\\qquad  \\\\frac{dy}{dx}=6-6+1=1$",
+							"images": {},
+							"replace": false,
+							"widgets": {}
+						}
+					],
+					"itemDataVersion": {
+						"major": 0,
+						"minor": 1
+					},
+					"question": {
+						"content": "In drawing the slope field for the differential equation $\\\\displaystyle~\\\\frac{dy}{dx}=3x-y+1\\\\,$, I would place short line segments at select points on the $\\\\displaystyle~xy$-plane.\\n\\n**Complete the sentences.**\\n\\nAt the point  $\\\\displaystyle~(-1, 3)\\\\,$, I would draw a short segment of slope [[☃ input-number 1]] .\\n\\nAt the point $\\\\displaystyle~(1, 4)\\\\,$, I would draw a short segment of slope [[☃ input-number 2]] .\\n\\nAt the point $\\\\displaystyle~(2, 6)\\\\,$, I would draw a short segment of slope [[☃ input-number 3]] .",
+						"images": {},
+						"widgets": {
+							"input-number 1": {
+								"alignment": "default",
+								"graded": true,
+								"options": {
+									"answerType": "number",
+									"inexact": false,
+									"maxError": 0.1,
+									"simplify": "required",
+									"size": "normal",
+									"value": -5
+								},
+								"static": false,
+								"type": "input-number",
+								"version": {
+									"major": 0,
+									"minor": 0
+								}
+							},
+							"input-number 2": {
+								"alignment": "default",
+								"graded": true,
+								"options": {
+									"answerType": "number",
+									"inexact": false,
+									"maxError": 0.1,
+									"simplify": "required",
+									"size": "normal",
+									"value": 0
+								},
+								"static": false,
+								"type": "input-number",
+								"version": {
+									"major": 0,
+									"minor": 0
+								}
+							},
+							"input-number 3": {
+								"alignment": "default",
+								"graded": true,
+								"options": {
+									"answerType": "number",
+									"inexact": false,
+									"maxError": 0.1,
+									"simplify": "required",
+									"size": "normal",
+									"value": 1
+								},
+								"static": false,
+								"type": "input-number",
+								"version": {
+									"major": 0,
+									"minor": 0
+								}
+							}
+						}
+					}
+				},
+				"__typename": "AssessmentItem"
+			},
+			"error": null,
+			"__typename": "AssessmentItemOrError"
+		}
+	}
+}
