@@ -7,3 +7,6 @@ Fork of @adubov1 's [khanacademybot](https://github.com/adubov1/khanacademy_bot)
 - Images are displayed properly
 - MathJax is used to render Tex answers
 - Questions are displayed before thier answers
+
+# TODO
+- Refactor! - Current implementation is very thrown-together!
