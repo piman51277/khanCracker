@@ -2,6 +2,8 @@
 A tool to get answers to Khan Academy questions.  
 Fork of @adubov1 's [khanacademybot](https://github.com/adubov1/khanacademy_bot)
 
+> This tool was created for purely educational purposes, in order to explore how much the original project could be improved. Do not use this project for any unauthroised purpose, or on a machine you do not own. I am not responsible for any consequences and/or losses incurred through using this tool.
+
 [Install Link](https://github.com/piman51277/khanCracker/raw/master/index.user.js)
 
 # How to Install
