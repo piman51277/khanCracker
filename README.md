@@ -14,6 +14,8 @@ Fork of @adubov1 's [khanacademybot](https://github.com/adubov1/khanacademy_bot)
 # How to Use
 When you are on a question page, open the console (Ctrl+Shift+I) to see the answer. 
 
+> See [the use tutorial](/tutorials/USE.md) for more detailed instructions.
+
 # Modifications to Original
 - Graphs are localised and displayed
 - Images are displayed properly
