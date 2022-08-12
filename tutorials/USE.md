@@ -6,10 +6,16 @@
 
 ## Step 2: Open the Console
 1. Click the "Console" tab
+
+
 ![step1image](/tutorials/media/usestep1.png)
 
 ## Optional: Step 2.5: Disable Warnings and Errors
 1. Click `Default Levels`
+
+
 ![step2image](/tutorials/media/usestep2.png)
 2. Uncheck `Errors` and `Warnings`
+
+
 ![step3image](/tutorials/media/usestep3.png)
