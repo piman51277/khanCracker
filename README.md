@@ -26,4 +26,5 @@ When you are on a question page, open the console (Ctrl+Shift+I) to see the answ
 - Drag-n-Drop questions are not supported
 
 # TODO
+- Simplify decimal answers to closest probable fraction
 - Refactor! - Current implementation is very thrown-together!
